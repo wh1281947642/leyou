@@ -11,8 +11,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  */
 @EnableZuulProxy
 @SpringCloudApplication
-public class LeyouGateway {
+public class LeyouGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(LeyouGateway.class);
+        SpringApplication.run(LeyouGatewayApplication.class);
     }
 }
