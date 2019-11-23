@@ -2,7 +2,6 @@ package le.com.search.client;
 
 
 import com.leyou.item.pojo.Category;
-import le.com.LySearchApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,11 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 10:16
- * @Description: 分类
+ *
+ *
+ * @param
+ * @return
+ * @description TODO
+ * @author huiwang45@iflytek.com
+ * @date 2019/11/23 15:59
  */
 @Table(name="tb_category")
 @Data

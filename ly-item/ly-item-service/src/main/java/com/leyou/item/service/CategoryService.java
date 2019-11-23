@@ -11,9 +11,13 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 10:23
- * @Description:
+ * 
+ *
+ * @param 
+ * @return 
+ * @description TODO
+ * @author huiwang45@iflytek.com
+ * @date 2019/11/23 16:05
  */
 @Service
 public class CategoryService {
@@ -21,6 +25,14 @@ public class CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    /**
+     * 根据父节点查询子节点
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/11/23 16:33
+     * @param
+     * @return 
+     */
     public List<Category> queryCategoryListByPid(Long pid) {
         // 查询条件，mapper会把对象中的非空属性作为查询条件
         Category category = new Category();

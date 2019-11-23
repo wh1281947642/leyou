@@ -27,26 +27,29 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
-     * 根据父节点查询商品分类
+     * 根据父节点id查询子节点
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/11/23 16:17
      * @param pid
-     * @return
+     * @return List<Category>
      */
     @GetMapping("/list")
-    public ResponseEntity<List<Category>> queryCategoryListByPid(@RequestParam("pid") Long pid) {
-        if(pid == null || pid<0){
-            //400:参数不合法
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-            //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            return ResponseEntity.badRequest().build();
-        }
-        List<Category> categorys = this.categoryService.queryCategoryListByPid(pid);
-        if(CollectionUtils.isEmpty(categorys)){
-            //404:资源未找到
-            //return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            return ResponseEntity.notFound().build();
-        }
-        //200:查询成功
-        return ResponseEntity.ok(categorys);
+    public ResponseEntity<List<Category>> queryCategoryListByPid(@RequestParam(value = "pid",defaultValue = "0") Long pid) {
+            if(pid == null || pid<0){
+                //400:参数不合法
+                //return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                //return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return ResponseEntity.badRequest().build();
+            }
+            List<Category> categorys = this.categoryService.queryCategoryListByPid(pid);
+            if(CollectionUtils.isEmpty(categorys)){
+                //404:资源未找到
+                //return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                return ResponseEntity.notFound().build();
+            }
+            //200:查询成功
+            return ResponseEntity.ok(categorys);
     }
 
     /**

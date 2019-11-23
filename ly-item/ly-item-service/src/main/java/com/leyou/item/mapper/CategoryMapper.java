@@ -6,9 +6,13 @@ import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 10:21
- * @Description:
+ * 
+ *
+ * @param 
+ * @return 
+ * @description TODO
+ * @author huiwang45@iflytek.com
+ * @date 2019/11/23 16:04
  */
 public interface CategoryMapper extends Mapper<Category>, IdListMapper<Category, Long>{
 }

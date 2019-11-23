@@ -6,13 +6,17 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
- * @Author: cuzz
- * @Date: 2018/10/30 16:35
- * @Description:
+ * 
+ *
+ * @param
+ * @return 
+ * @description TODO
+ * @author huiwang45@iflytek.com
+ * @date 2019/11/23 16:26
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-// 导入tk包
+// 导入tk包(通用mapper)
 @MapperScan("com.leyou.item.mapper")
 public class LeyouItemApplication {
     public static void main(String[] args) {
