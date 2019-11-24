@@ -11,9 +11,13 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 14:45
- * @Description:
+ * <p>
+ * <code>BrandMapper</code>
+ * </p>
+ *  品牌管理
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/24 17:30
  */
 public interface BrandMapper extends Mapper<Brand>, IdListMapper<Brand, Long> {
     /**

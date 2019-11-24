@@ -15,9 +15,13 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 10:24
- * @Description:
+ * <p>
+ * <code>CustomerStateWorkerOrderService</code>
+ * </p>
+ *  分类管理
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/24 17:29
  */
 @RestController
 @RequestMapping("/category")

@@ -11,13 +11,13 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * 
- *
- * @param 
- * @return 
- * @description TODO
+ * <p>
+ * <code>CategoryService</code>
+ * </p>
+ *  分类管理
  * @author huiwang45@iflytek.com
- * @date 2019/11/23 16:05
+ * @description
+ * @date 2019/11/24 17:28
  */
 @Service
 public class CategoryService {

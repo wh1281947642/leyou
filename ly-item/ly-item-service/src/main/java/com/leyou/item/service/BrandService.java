@@ -2,6 +2,7 @@ package com.leyou.item.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
@@ -18,9 +19,13 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 14:46
- * @Description:
+ * <p>
+ * <code>BrandService</code>
+ * </p>
+ *  品牌管理
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/24 17:28
  */
 @Service
 public class BrandService {
@@ -28,24 +33,44 @@ public class BrandService {
     @Autowired
     private BrandMapper brandMapper;
 
+    /**
+     * 根据查询条件分页并排序查询品牌信息
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/11/24 17:11
+     * @param key 搜索条件
+     * @param page 页数
+     * @param rows 每页多少条数据
+     * @param sortBy 根据什么排序
+     * @param desc 升序还是降序
+     * @return PageResult<Brand>
+     */
     public PageResult<Brand> queryBrandByPageAndSort(Integer page, Integer rows, String sortBy, Boolean desc, String key) {
-        // 开始分页
-        PageHelper.startPage(page, rows);
-        // 过滤
+
+        // 初始化example对象
         Example example = new Example(Brand.class);
+        Example.Criteria criteria = example.createCriteria();
+
+        //根据name模糊查询，或者根据首字母查询
         if (StringUtils.isNotBlank(key)) {
-            example.createCriteria().andLike("name", "%" + key + "%")
+            criteria.andLike("name", "%" + key + "%")
                     .orEqualTo("letter", key);
         }
+
+        // 添加分页条件
+        PageHelper.startPage(page, rows);
+
+        //添加排序条件
         if (StringUtils.isNotBlank(sortBy)) {
-            // 排序
             String orderByClause = sortBy + (desc ? " DESC" : " ASC");
+            //example.setOrderByClause("id desc");
             example.setOrderByClause(orderByClause);
         }
-        // 查询
-        Page<Brand> pageInfo = (Page<Brand>) brandMapper.selectByExample(example);
-        // 返回结果
-        return new PageResult<>(pageInfo.getTotal(), pageInfo);
+        List<Brand> brands = brandMapper.selectByExample(example);
+       //包装成pageInfo
+        PageInfo<Brand> pageInfo = new PageInfo<>(brands);
+        // 包装成分页结果集返回
+        return new PageResult<>(pageInfo.getTotal(),pageInfo.getList());
     }
 
 

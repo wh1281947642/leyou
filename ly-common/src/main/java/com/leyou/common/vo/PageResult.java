@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/2 9:55
- * @Description: 分页类
+ * <p>
+ * <code>PageResult</code>
+ * </p>
+ *
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/24 16:38
  */
 @Data
 public class PageResult<T> {
@@ -27,30 +31,6 @@ public class PageResult<T> {
     public PageResult(Long total, Long totalPage, List<T> items) {
         this.total = total;
         this.totalPage = totalPage;
-        this.items = items;
-    }
-
-    public Long getTotal() {
-        return total;
-    }
-
-    public void setTotal(Long total) {
-        this.total = total;
-    }
-
-    public Long getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(Long totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public List<T> getItems() {
-        return items;
-    }
-
-    public void setItems(List<T> items) {
         this.items = items;
     }
 }

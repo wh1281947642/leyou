@@ -8,9 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/1 14:42
- * @Description: 商品品牌
+ * <p>
+ * <code>Brand</code>
+ * </p>
+ *
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/24 17:06
  */
 @Data
 @Table(name = "tb_brand")
@@ -22,35 +26,4 @@ public class Brand {
     private String image;// 品牌图片
     private Character letter;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Character getLetter() {
-        return letter;
-    }
-
-    public void setLetter(Character letter) {
-        this.letter = letter;
-    }
 }
