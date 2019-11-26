@@ -94,10 +94,11 @@ public class BrandService {
         // 在新增中间表
         for (Long cid : cids) {
             // 新增brand，brand的id会自动回写
-            CategoryBrand categoryBrand = new CategoryBrand();
-            categoryBrand.setBrandId(brand.getId());
-            categoryBrand.setCategoryId(cid);
-            categoryBrandMapper.insertSelective(categoryBrand);
+            //CategoryBrand categoryBrand = new CategoryBrand();
+            //categoryBrand.setBrandId(brand.getId());
+            //categoryBrand.setCategoryId(cid);
+            //categoryBrandMapper.insertSelective(categoryBrand);
+            brandMapper.insertCategoryAndBrand(cid,brand.getId());
         }
     }
 
