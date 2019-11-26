@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * <p>
  * <code>Brand</code>
  * </p>
- *
+ *  商品管理
  * @author huiwang45@iflytek.com
  * @description
  * @date 2019/11/24 17:06

@@ -7,7 +7,9 @@ import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.mapper.BrandMapper;
+import com.leyou.item.mapper.CategoryBrandMapper;
 import com.leyou.item.pojo.Brand;
+import com.leyou.item.pojo.CategoryBrand;
 import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class BrandService {
 
     @Autowired
     private BrandMapper brandMapper;
+
+    private CategoryBrandMapper categoryBrandMapper;
 
     /**
      * 根据查询条件分页并排序查询品牌信息
@@ -74,23 +78,26 @@ public class BrandService {
     }
 
 
-    // 添加事务
+    /**
+     * 品牌新增
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/11/25 17:17
+     * @param
+     * @return
+     */
     @Transactional
     public void saveBrand(Brand brand, List<Long> cids) {
+        //先新增brand
+        brandMapper.insert(brand);
 
-        brand.setId(null);
-        int count = brandMapper.insert(brand);
-        if (count != 1) {
-            throw new LyException(ExceptionEnum.BRAND_SAVE_ERROR);
-        }
-
-        // 新增中间表
+        // 在新增中间表
         for (Long cid : cids) {
             // 新增brand，brand的id会自动回写
-            int count1 = brandMapper.insertCategoryBrand(cid, brand.getId());
-            if (count1 != 1) {
-                throw new LyException(ExceptionEnum.CATEGORY_NOT_FOUND);
-            }
+            CategoryBrand categoryBrand = new CategoryBrand();
+            categoryBrand.setBrandId(brand.getId());
+            categoryBrand.setCategoryId(cid);
+            categoryBrandMapper.insertSelective(categoryBrand);
         }
     }
 

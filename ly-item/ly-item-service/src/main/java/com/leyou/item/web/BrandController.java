@@ -57,15 +57,18 @@ public class BrandController {
     }
 
     /**
-     * 新增品牌
-     * @param brand
-     * @param cids
+     * 品牌新增
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/11/25 17:17
+     * @param
      * @return
      */
     @PostMapping  // 传入 "1,2,3"的字符串可以解析为列表
     public ResponseEntity<Void> saveBrand(Brand brand, @RequestParam("cids") List<Long> cids) {
         brandService.saveBrand(brand, cids);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        //return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     /**
