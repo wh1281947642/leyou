@@ -79,6 +79,7 @@
                 <artifactId>fastdfs-client</artifactId>
                 <version>${fastDFS.client.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <dependencies>

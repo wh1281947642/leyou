@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/2 14:06
- * @Description:
+ * <p>
+ * <code>UploadController</code>
+ * </p>
+ *  图片上传
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/11/28 19:54
  */
 @RestController
 @RequestMapping("upload")
@@ -23,19 +27,23 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    /**
-     * 上传图片功能
-     * @param file
-     * @return
-     */
+   /**
+    *  图片上传
+    * @description TODO
+    * @author huiwang45@iflytek.com
+    * @date 2019/11/28 19:54
+    * @param  file
+    * @return url 文件上传的路径
+    */
     @PostMapping("image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
-        String url = this.uploadService.upload(file);
+        String url = this.uploadService.uploadImage(file);
         if (StringUtils.isBlank(url)) {
             // url为空，证明上传失败
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         // 返回200，并且携带url路径
-        return ResponseEntity.ok(url);
+        //return ResponseEntity.ok(url);
+        return ResponseEntity.status(HttpStatus.CREATED).body(url);
     }
 }
