@@ -4,9 +4,13 @@ import com.leyou.item.pojo.SpecGroup;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/5 13:53
- * @Description:
+ * <p>
+ * <code>SpecGroupMapper</code>
+ * </p>
+ *  规格参数组
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/08 17:49
  */
 public interface SpecGroupMapper extends Mapper<SpecGroup>{
 }

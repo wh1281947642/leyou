@@ -10,9 +10,13 @@ import java.net.UnknownServiceException;
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/5 13:47
- * @Description:
+ * <p>
+ * <code>SpecGroup</code>
+ * </p>
+ *  规格参数组
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/08 17:44
  */
 @Table(name = "tb_spec_group")
 @Data

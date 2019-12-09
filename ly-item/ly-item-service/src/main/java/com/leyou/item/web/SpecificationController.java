@@ -8,14 +8,19 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/5 13:58
- * @Description:
+ * <p>
+ * <code>SpecificationController</code>
+ * </p>
+ *  规格参数 && 规格参数组
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/08 17:52
  */
 @RestController
 @RequestMapping("spec")
@@ -24,24 +29,29 @@ public class SpecificationController {
     @Autowired
     SpecificationService specificationService;
 
-
-
     /**
-     * 根据分类cid查询规格组
-     * @param cid
+     * 根据分类id（cid）查询规格参数组
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/08 17:56
+     * @param cid  分类id
      * @return
      */
     @GetMapping("groups/{cid}")
-    public ResponseEntity<List<SpecGroup>> queryGroupByCid(@PathVariable("cid") Long cid) {
-        return ResponseEntity.ok(specificationService.queryGroupByCid(cid));
+    public ResponseEntity<List<SpecGroup>> queryGroupsByCid(@PathVariable("cid") Long cid) {
+        List<SpecGroup> groups = specificationService.queryGroupsByCid(cid);
+        if(CollectionUtils.isEmpty(groups)){
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(groups);
     }
 
     /**
-     * 查询规格
-     * @param gid
-     * @param cid
-     * @param searching
-     * @param generic
+     * 根据条件查询规格参数
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/08 23:29
+     * @param gid 规格参数组主键
      * @return
      */
     @GetMapping("/params")
@@ -50,7 +60,11 @@ public class SpecificationController {
             @RequestParam(value="cid", required = false) Long cid,
             @RequestParam(value="searching", required = false) Boolean searching,
             @RequestParam(value="generic", required = false) Boolean generic){
-        return ResponseEntity.ok(specificationService.querySpecParams(gid, cid, searching,generic));
+        List<SpecParam> specParams = specificationService.querySpecParams(gid, cid, searching, generic);
+        if (CollectionUtils.isEmpty(specParams)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(specParams);
     }
 
     /**
