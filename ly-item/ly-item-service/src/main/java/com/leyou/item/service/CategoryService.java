@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -44,11 +45,17 @@ public class CategoryService {
         return list;
     }
 
-    public List<Category> queryByIds(List<Long> ids) {
-        final List<Category> list = categoryMapper.selectByIdList(ids);
-        if (CollectionUtils.isEmpty(list)) {
-            //throw new LyException(ExceptionEnum.CATEGORY_NOT_FOUND);
-        }
+    /**
+     * 根据商品分类ids查询商品分类名称集合
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/14 14:53
+     * @param ids
+     * @return
+     */
+    public List<String> queryNameSByIds(List<Long> ids) {
+        List<Category> categories = this.categoryMapper.selectByIdList(ids);
+        List<String> list = categories.stream().map(category -> category.getName()).collect(Collectors.toList());
         return list;
     }
 }

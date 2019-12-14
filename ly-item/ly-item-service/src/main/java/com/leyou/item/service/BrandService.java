@@ -111,11 +111,16 @@ public class BrandService {
         return brand;
     }
 
+    /**
+     * 根据分类id查询品牌列表
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/14 16:28
+     * @param
+     * @return
+     */
     public List<Brand> queryBrandByCid(Long cid) {
         List<Brand> list = brandMapper.queryByCategoryId(cid);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
-        }
         return list;
 
     }

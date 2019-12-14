@@ -5,17 +5,23 @@ import com.leyou.item.pojo.Sku;
 import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuDetail;
 import com.leyou.item.service.GoodsService;
+import com.leyou.item.vo.SpuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/6 19:50
- * @Description:
+ * <p>
+ * <code>GoodsController</code>
+ * </p>
+ * 商品查询
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/14 13:46
  */
 @RestController
 public class GoodsController {
@@ -25,21 +31,35 @@ public class GoodsController {
 
 
 
+    /**
+     * 根据条件分页查询spu
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/14 14:07
+     * @param key
+     * @param saleable
+     * @param page
+     * @param rows
+     * @return
+     */
     @GetMapping("spu/page")
-    public ResponseEntity<PageResult<Spu>> querySpuByPage(
-            @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "rows", defaultValue = "5") Integer rows,
+    public ResponseEntity<PageResult<SpuVo>> querySpuByPage(
+            @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "saleable", required = false) Boolean saleable,
-            @RequestParam(value = "key", required = false) String key) {
-
-        return ResponseEntity.ok(goodsService.querySpuPage(page, rows, saleable, key));
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "rows", defaultValue = "5") Integer rows) {
+        PageResult<SpuVo> result = this.goodsService.querySpuByPage(key,saleable,page,rows);
+        if(result==null||CollectionUtils.isEmpty(result.getItems())){
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
     }
 
-    @PostMapping("goods")   // json对象加上@RequestBody
+   /* @PostMapping("goods")   // json对象加上@RequestBody
     public ResponseEntity<Void> saveGoods(@RequestBody Spu spu) {
         goodsService.saveGoods(spu);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+    }*/
 
 
     /**

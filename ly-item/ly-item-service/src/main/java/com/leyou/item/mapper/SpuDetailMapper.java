@@ -4,9 +4,13 @@ import com.leyou.item.pojo.SpuDetail;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/6 19:45
- * @Description:
+ * <p>
+ * <code>SpuDetailMapper</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/14 14:41
  */
 public interface SpuDetailMapper extends Mapper<SpuDetail>{
 }

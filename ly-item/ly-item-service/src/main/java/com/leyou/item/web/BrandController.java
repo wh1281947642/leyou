@@ -4,6 +4,7 @@ import com.leyou.common.vo.PageResult;
 import com.leyou.item.pojo.Brand;
 import com.leyou.item.service.BrandService;
 import com.mysql.jdbc.StringUtils;
+import jdk.nashorn.internal.ir.IfNode;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,13 +73,20 @@ public class BrandController {
     }
 
     /**
-     * 根据分类查询品牌
-     * @param cid
+     * 根据分类id查询品牌列表
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/14 16:28
+     * @param
      * @return
      */
     @GetMapping("cid/{cid}")
-    public ResponseEntity<List<Brand>> queryBrandByCategory(@PathVariable("cid") Long cid) {
-        return ResponseEntity.ok(brandService.queryBrandByCid(cid));
+    public ResponseEntity<List<Brand>> queryBrandsByCid(@PathVariable("cid") Long cid) {
+        List<Brand> brands = this.brandService.queryBrandByCid(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(brands);
     }
 
     /**

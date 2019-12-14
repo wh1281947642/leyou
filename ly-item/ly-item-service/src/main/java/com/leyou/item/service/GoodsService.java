@@ -1,21 +1,21 @@
 package com.leyou.item.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
-import com.leyou.item.mapper.SkuMapper;
-import com.leyou.item.mapper.SpuDetailMapper;
-import com.leyou.item.mapper.SpuMapper;
-import com.leyou.item.mapper.StockMapper;
+import com.leyou.item.mapper.*;
 import com.leyou.item.pojo.*;
+import com.leyou.item.vo.SpuVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,19 +32,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/6 19:46
- * @Description: 商品货物
+ * <p>
+ * <code>GoodsService</code>
+ * </p>
+ * 商品查询
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/14 13:45
  */
 @Slf4j
 @Service
 public class GoodsService {
 
+    /***
+     * 标准产品单位，商品集
+     */
     @Autowired
     private SpuMapper spuMapper;
 
     @Autowired
     private SpuDetailMapper spuDetailMapper;
+
+    @Autowired
+    private BrandMapper brandMapper;
 
     @Autowired
     private CategoryService categoryService;
@@ -61,6 +71,51 @@ public class GoodsService {
     @Autowired
     AmqpTemplate amqpTemplate;
 
+    /**
+     * 根据条件分页查询spu
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/14 14:07
+     * @param key
+     * @param saleable
+     * @param page
+     * @param rows
+     * @return
+     */
+    public PageResult<SpuVo> querySpuByPage(String key, Boolean saleable, Integer page, Integer rows) {
+
+        Example example = new Example(Spu.class);
+        Example.Criteria criteria = example.createCriteria();
+        //添加查询条件
+        if (StringUtils.isNoneBlank(key)){
+            criteria.andLike("title","%"+ key + "%");
+        }
+        //添加上下架的条件
+        if (saleable != null){
+            criteria.andEqualTo("saleable",saleable);
+        }
+        //添加分页
+        PageHelper.startPage(page, rows);
+        //执行查询，获取spu集合
+        List<Spu> spus = this.spuMapper.selectByExample(example);
+        PageInfo<Spu> pageInfo = new PageInfo<>(spus);
+        //转换成SpuVo集合
+        List<SpuVo> spuVos = spus.stream().map(spu -> {
+            SpuVo spuVo = new SpuVo();
+            BeanUtils.copyProperties(spu, spuVo);
+            //查询分类名称
+            List<String> names = this.categoryService.queryNameSByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
+            spuVo.setCname(StringUtils.join(names, "-"));
+            //查询品牌名称
+            Brand brand = this.brandMapper.selectByPrimaryKey(spu.getBrandId());
+            spuVo.setBname(brand.getName());
+            return spuVo;
+        }).collect(Collectors.toList());
+
+        //返回PageResult<SpuVo>
+        PageResult<SpuVo> result = new PageResult<>(pageInfo.getTotal(), spuVos);
+        return  result;
+    }
 
     public PageResult<Spu> querySpuPage(Integer page, Integer rows, Boolean saleable, String key) {
         // 1、查询SPU
@@ -92,14 +147,14 @@ public class GoodsService {
         }
 
         // 解析分类和
-        loadCategoryAndBrandName(spus);
+        //loadCategoryAndBrandName(spus);
 
         // 解析分页的结果
         PageInfo<Spu> info = new PageInfo<>(spus);
         return new PageResult<>(info.getTotal(), spus);
     }
 
-    private void loadCategoryAndBrandName(List<Spu> spus) {
+    /*private void loadCategoryAndBrandName(List<Spu> spus) {
         for (Spu spu : spus) {
             // 处理分类名称
             List<String> names = categoryService.queryByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()))
@@ -121,9 +176,9 @@ public class GoodsService {
 
         // 发送消息
         this.sendMessage(spu.getId(), "insert");
-    }
+    }*/
 
-    private void saveSkuAndStock(Spu spu) {
+    /*private void saveSkuAndStock(Spu spu) {
         List<Stock> list = new ArrayList<>();
         List<Sku> skus = spu.getSkus();
         for (Sku sku : skus) {
@@ -157,7 +212,7 @@ public class GoodsService {
         if (count != 1) {
             throw new LyException(ExceptionEnum.GOODS_SAVE_ERROR);
         }
-    }
+    }*/
 
     private void saveSpu(Spu spu) {
         spu.setSaleable(true);
@@ -205,4 +260,6 @@ public class GoodsService {
             log.error("{}商品消息发送异常，商品id：{}", type, id, e);
         }
     }
+
+
 }
