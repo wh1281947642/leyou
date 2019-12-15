@@ -69,21 +69,52 @@ public class GoodsController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
     /**
-     * 根据id查询商品细节的方法
-     * @param id
+     * 更新商品
+     * @description json对象加上@RequestBody
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 14:46
+     * @param
      * @return
      */
-    @GetMapping("spu/detail/{id}")
-    public ResponseEntity<SpuDetail> querySpuDetailById(@PathVariable("id")Long id) {
-        return ResponseEntity.ok(goodsService.querySpuDetailByid(id));
-
+    @PutMapping("goods")
+    public ResponseEntity<Void> updateGoods(@RequestBody SpuVo spuVo) {
+        this.goodsService.updateGoods(spuVo);
+        return ResponseEntity.noContent().build();
     }
 
+    /**
+     * 根据spuId查询spuDetail
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 15:43
+     * @param spuId
+     * @return  SpuDetail
+     */
+    @GetMapping("spu/detail/{spuId}")
+    public ResponseEntity<SpuDetail> querySpuDetailBySpuId(@PathVariable("spuId")Long spuId) {
+        SpuDetail spuDetail = this.goodsService.querySpuDetailBySpuId(spuId);
+        if (spuDetail == null) {
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(spuDetail);
+    }
+
+    /**
+     *  根据spuId查询sku集合
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 15:50
+     * @param spuId
+     * @return List<Sku>
+     */
     @GetMapping("/sku/list")
-    public ResponseEntity<List<Sku>> querySkuList(@RequestParam("id")Long id){
-        return ResponseEntity.ok(goodsService.querySkusBySpuId(id));
+    public ResponseEntity<List<Sku>> querySkusBySpuId(@RequestParam("id")Long spuId){
+        List<Sku> skus = this.goodsService.querySkusBySpuId(spuId);
+        if (CollectionUtils.isEmpty(skus)) {
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(skus);
     }
 
     @GetMapping("spu/{id}")

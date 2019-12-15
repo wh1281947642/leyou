@@ -25,6 +25,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.xml.soap.Detail;
 import java.beans.Transient;
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -145,7 +146,47 @@ public class GoodsService {
         //主键回显
         spuDetail.setSpuId(spuVo.getId());
         this.spuDetailMapper.insertSelective(spuDetail);
+        saveSkuAndStock(spuVo);
+    }
 
+
+
+    /**
+     * 更新商品
+     * @description json对象加上@RequestBody
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 14:46
+     * @param
+     * @return
+     */
+    @Transactional
+    public void updateGoods(SpuVo spuVo) {
+        //根据spuId查询要删除的skus
+        Sku record = new Sku();
+        record.setSpuId(spuVo.getId());
+        List<Sku> skus = this.skuMapper.select(record);
+        skus.forEach(sku -> {
+            //1.先删除stock
+            this.stockMapper.deleteByPrimaryKey(sku.getId());
+            //2.在删除sku
+            Sku skuOld = new Sku();
+            skuOld.setSpuId(spuVo.getId());
+            this.skuMapper.delete(skuOld);
+        });
+        //3.新增sku
+        //4.新增stock
+        this.saveSkuAndStock(spuVo);
+        //5.更新spu和spuDetail
+        spuVo.setCreateTime(null);
+        spuVo.setLastUpdateTime(new Date());
+        spuVo.setValid(null);
+        spuVo.setSaleable(null);
+        this.spuMapper.updateByPrimaryKeySelective(spuVo);
+        this.spuDetailMapper.updateByPrimaryKeySelective(spuVo.getSpuDetail());
+    }
+
+    private void saveSkuAndStock(SpuVo spuVo) {
+        Date date = new Date();
         List<Sku> skus = spuVo.getSkus();
         skus.forEach(sku -> {
             //3.新增sku
@@ -160,6 +201,37 @@ public class GoodsService {
             stock.setStock(sku.getStock());
             this.stockMapper.insertSelective(stock);
         });
+    }
+
+    /**
+     * 根据spuId查询spuDetail
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 15:43
+     * @param spuId
+     * @return  SpuDetail
+     */
+    public SpuDetail querySpuDetailBySpuId(Long spuId) {
+        return  this.spuDetailMapper.selectByPrimaryKey(spuId);
+    }
+
+    /**
+     *  根据spuId查询sku集合
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 15:50
+     * @param id
+     * @return List<Sku>
+     */
+    public List<Sku> querySkusBySpuId(Long id) {
+        Sku record = new Sku();
+        record.setSpuId(id);
+        List<Sku> skus = skuMapper.select(record);
+        skus.forEach(sku -> {
+            Stock stock = this.stockMapper.selectByPrimaryKey(sku.getId());
+            sku.setStock(stock.getStock());
+        });
+        return skus;
     }
 
     public PageResult<Spu> querySpuPage(Integer page, Integer rows, Boolean saleable, String key) {
@@ -199,95 +271,6 @@ public class GoodsService {
         return new PageResult<>(info.getTotal(), spus);
     }
 
-    /*private void loadCategoryAndBrandName(List<Spu> spus) {
-        for (Spu spu : spus) {
-            // 处理分类名称
-            List<String> names = categoryService.queryByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()))
-                    .stream().map(Category::getName).collect(Collectors.toList());
-            spu.setCname(StringUtils.join(names, "/"));
-            // 处理品牌名称
-            spu.setBname(brandService.queryById(spu.getBrandId()).getName());
-        }
-    }
-
-    @Transactional
-    public void saveGoods(Spu spu) {
-        // 新增spu
-        saveSpu(spu);
-        // 新增detail
-        saveSpuDetail(spu);
-        // 新增sku和库存
-        saveSkuAndStock(spu);
-
-        // 发送消息
-        this.sendMessage(spu.getId(), "insert");
-    }*/
-
-    /*private void saveSkuAndStock(Spu spu) {
-        List<Stock> list = new ArrayList<>();
-        List<Sku> skus = spu.getSkus();
-        for (Sku sku : skus) {
-            // 保存sku
-            sku.setSpuId(spu.getId());
-            // 初始化时间
-            sku.setCreateTime(new Date());
-            sku.setLastUpdateTime(sku.getCreateTime());
-            int count = skuMapper.insert(sku);
-            if (count != 1) {
-                throw new LyException(ExceptionEnum.GOODS_SAVE_ERROR);
-            }
-            // 保存库存信息
-            Stock stock = new Stock();
-            stock.setSkuId(sku.getId());
-            stock.setStock(sku.getStock());
-            list.add(stock);
-        }
-        // 批量新增库存
-        int count = stockMapper.insertList(list);
-        if (count != 1) {
-            throw new LyException(ExceptionEnum.GOODS_SAVE_ERROR);
-        }
-
-    }
-
-    private void saveSpuDetail(Spu spu) {
-        SpuDetail detail = spu.getSpuDetail();
-        detail.setSpuId(spu.getId());
-        int count = spuDetailMapper.insert(detail);
-        if (count != 1) {
-            throw new LyException(ExceptionEnum.GOODS_SAVE_ERROR);
-        }
-    }*/
-
-    private void saveSpu(Spu spu) {
-        spu.setSaleable(true);
-        spu.setValid(true);
-        spu.setCreateTime(new Date());
-        spu.setLastUpdateTime(spu.getCreateTime());
-        int count = spuMapper.insert(spu);
-        if (count != 1) {
-            throw new LyException(ExceptionEnum.GOODS_SAVE_ERROR);
-        }
-    }
-
-    public SpuDetail querySpuDetailByid(Long id) {
-        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(id);
-        if (spuDetail == null) {
-            throw new LyException(ExceptionEnum.SPU_DETAIL_NOT_FOUND);
-        }
-        return spuDetail;
-    }
-
-    public List<Sku> querySkusBySpuId(Long id) {
-        Sku sku = new Sku();
-        sku.setSpuId(id);
-        List<Sku> skus = skuMapper.select(sku);
-        if (CollectionUtils.isEmpty(skus)) {
-            throw new LyException(ExceptionEnum.GOODS_SKU_NOT_FOUND);
-        }
-        return skus;
-    }
-
     public Spu querySpuByid(Long id) {
         Spu spu = spuMapper.selectByPrimaryKey(id);
         if (spu == null) {
@@ -305,6 +288,7 @@ public class GoodsService {
             log.error("{}商品消息发送异常，商品id：{}", type, id, e);
         }
     }
+
 
 
 }
