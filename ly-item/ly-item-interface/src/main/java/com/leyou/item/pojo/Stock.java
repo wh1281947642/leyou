@@ -6,9 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/7 19:11
- * @Description:
+ * <p>
+ * <code>Stock</code>
+ * </p>
+ *  库存
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/15 14:39
  */
 @Data
 @Table(name = "tb_stock")

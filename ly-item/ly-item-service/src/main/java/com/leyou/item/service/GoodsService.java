@@ -82,6 +82,7 @@ public class GoodsService {
      * @param rows
      * @return
      */
+    @Transactional
     public PageResult<SpuVo> querySpuByPage(String key, Boolean saleable, Integer page, Integer rows) {
 
         Example example = new Example(Spu.class);
@@ -115,6 +116,50 @@ public class GoodsService {
         //返回PageResult<SpuVo>
         PageResult<SpuVo> result = new PageResult<>(pageInfo.getTotal(), spuVos);
         return  result;
+    }
+
+    /**
+     * 新增商品 （json对象加上@RequestBody）
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 14:46
+     * @param
+     * @return
+     */
+    public void saveGoods(SpuVo spuVo) {
+        Date date = new Date();
+        //1.先新增spu
+        spuVo.setId(null);
+        //是否上架
+        spuVo.setSaleable(true);
+        //是否可用
+        spuVo.setValid(true);
+        //创建时间
+        spuVo.setCreateTime(date);
+        //更新时间
+        spuVo.setLastUpdateTime(date);
+        this.spuMapper.insertSelective(spuVo);
+
+        //2.再去新增spuDetail
+        SpuDetail spuDetail = spuVo.getSpuDetail();
+        //主键回显
+        spuDetail.setSpuId(spuVo.getId());
+        this.spuDetailMapper.insertSelective(spuDetail);
+
+        List<Sku> skus = spuVo.getSkus();
+        skus.forEach(sku -> {
+            //3.新增sku
+            sku.setId(null);
+            sku.setSpuId(spuVo.getId());
+            sku.setCreateTime(date);
+            sku.setLastUpdateTime(date);
+            this.skuMapper.insertSelective(sku);
+            //4.再去新增stock
+            Stock stock = new Stock();
+            stock.setSkuId(sku.getId());
+            stock.setStock(sku.getStock());
+            this.stockMapper.insertSelective(stock);
+        });
     }
 
     public PageResult<Spu> querySpuPage(Integer page, Integer rows, Boolean saleable, String key) {

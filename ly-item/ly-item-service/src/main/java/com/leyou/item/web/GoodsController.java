@@ -55,11 +55,19 @@ public class GoodsController {
         return ResponseEntity.ok(result);
     }
 
-   /* @PostMapping("goods")   // json对象加上@RequestBody
-    public ResponseEntity<Void> saveGoods(@RequestBody Spu spu) {
-        goodsService.saveGoods(spu);
+    /**
+     * 新增商品
+     * @description json对象加上@RequestBody
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/15 14:46
+     * @param
+     * @return
+     */
+    @PostMapping("goods")
+    public ResponseEntity<Void> saveGoods(@RequestBody SpuVo spuVo) {
+        this.goodsService.saveGoods(spuVo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }*/
+    }
 
 
     /**

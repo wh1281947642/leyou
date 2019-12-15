@@ -6,9 +6,13 @@ import tk.mybatis.mapper.additional.insert.InsertListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/7 19:18
- * @Description: 必须导入tk.mybatis.mapper.additional.insert.InsertListMapper这个包
+ * <p>
+ * <code>StockMapper</code>
+ * </p>
+ *  库存
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/15 14:42
  */
-public interface StockMapper extends Mapper<Stock>, IdListMapper<Stock, Long>, InsertListMapper<Stock> {
+public interface StockMapper extends Mapper<Stock>{
 }

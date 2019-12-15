@@ -11,7 +11,7 @@ import java.util.List;
  * <p>
  * <code>Spu</code>
  * </p>
- *  Spu
+ * 标准产品单位，商品集
  * @author huiwang45@iflytek.com
  * @description
  * @date 2019/12/14 13:42
