@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.leyou.service</groupId>
-    <artifactId>ly-page</artifactId>
+    <artifactId>leyou-page</artifactId>
 
 
 
@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.leyou.service</groupId>
-            <artifactId>ly-item-interface</artifactId>
+            <artifactId>leyou-item-interface</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
