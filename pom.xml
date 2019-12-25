@@ -10,11 +10,11 @@
     <modules>
         <module>leyou-registry</module>
         <module>leyou-gateway</module>
-        <!--<module>ly-common</module>-->
+        <!--<module>leyou-common</module>-->
         <module>leyou-item</module>
         <module>leyou-common</module>
         <module>leyou-upload</module>
-        <module>leyou-serarch</module>
+        <module>leyou-search</module>
         <module>leyou-page</module>
         <!--<module>ly-sms-service</module>-->
         <!--<module>ly-user-service</module>-->
