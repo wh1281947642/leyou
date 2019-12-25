@@ -1,11 +1,9 @@
-package le.com.search.pojo;
+package leyou.com.search.pojo;
 
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.pojo.Brand;
 import com.leyou.item.pojo.Category;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;

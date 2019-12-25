@@ -1,4 +1,4 @@
-package le.com.search.service;
+package leyou.com.search.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.leyou.common.enums.ExceptionEnum;
@@ -8,21 +8,18 @@ import com.leyou.common.utils.NumberUtils;
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.pojo.*;
 import com.leyou.item.vo.SkuVo;
-import le.com.search.client.BrandClient;
-import le.com.search.client.CategoryClient;
-import le.com.search.client.GoodsClient;
-import le.com.search.client.SpecificationClient;
-import le.com.search.pojo.Goods;
-import le.com.search.pojo.SearchRequest;
-import le.com.search.pojo.SearchResult;
-import le.com.search.repository.GoodsRepository;
-import lombok.ToString;
+import leyou.com.search.client.BrandClient;
+import leyou.com.search.client.CategoryClient;
+import leyou.com.search.client.GoodsClient;
+import leyou.com.search.client.SpecificationClient;
+import leyou.com.search.pojo.Goods;
+import leyou.com.search.pojo.SearchRequest;
+import leyou.com.search.pojo.SearchResult;
+import leyou.com.search.repository.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
@@ -31,9 +28,7 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
@@ -41,7 +36,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.Id;
 import java.util.*;
 import java.util.stream.Collectors;
 

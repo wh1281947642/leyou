@@ -1,4 +1,4 @@
-package le.com.search.client;
+package leyou.com.search.client;
 
 import com.leyou.item.api.SpecificationApi;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,10 +1,10 @@
-package le.com.search.repository;
+package leyou.com.search.repository;
 
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.pojo.Spu;
-import le.com.search.client.GoodsClient;
-import le.com.search.pojo.Goods;
-import le.com.search.service.SearchService;
+import leyou.com.search.client.GoodsClient;
+import leyou.com.search.pojo.Goods;
+import leyou.com.search.service.SearchService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
 
 /**
  * @Author: cuzz

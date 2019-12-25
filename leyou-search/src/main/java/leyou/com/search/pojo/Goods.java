@@ -1,4 +1,4 @@
-package le.com.search.pojo;
+package leyou.com.search.pojo;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

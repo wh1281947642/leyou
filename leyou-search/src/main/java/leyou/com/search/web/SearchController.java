@@ -1,9 +1,9 @@
-package le.com.search.web;
+package leyou.com.search.web;
 
 import com.leyou.common.vo.PageResult;
-import le.com.search.pojo.Goods;
-import le.com.search.pojo.SearchRequest;
-import le.com.search.service.SearchService;
+import leyou.com.search.pojo.Goods;
+import leyou.com.search.pojo.SearchRequest;
+import leyou.com.search.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
