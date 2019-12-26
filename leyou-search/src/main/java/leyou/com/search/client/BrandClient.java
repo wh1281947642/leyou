@@ -4,9 +4,13 @@ import com.leyou.item.api.BrandApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/9 16:21
- * @Description:
+ * <p>
+ * <code>BrandClient</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/26 15:06
  */
 @FeignClient("item-service")
 public interface BrandClient extends BrandApi{

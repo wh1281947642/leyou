@@ -29,8 +29,6 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-
-
     /**
      * 根据条件分页查询spu
      * @description TODO

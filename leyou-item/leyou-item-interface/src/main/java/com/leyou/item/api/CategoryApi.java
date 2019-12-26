@@ -16,11 +16,7 @@ import java.util.List;
 @RequestMapping("category")
 public interface CategoryApi {
 
-    /**
-     * 根据id查询商品分类
-     * @param ids
-     */
-    @GetMapping("list/ids")
-    List<Category> queryCategoryListByids(@RequestParam("ids") List<Long> ids);
+    @GetMapping
+    public List<String> queryNamesByIds(@RequestParam("ids") List<Long> ids);
 
 }
