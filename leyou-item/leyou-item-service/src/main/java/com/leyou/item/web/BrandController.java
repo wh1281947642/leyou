@@ -91,13 +91,21 @@ public class BrandController {
 
     /**
      * 根据id查询品牌
-     * @param id
+     * @description T
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/25 16:49
+     * @param
      * @return
      */
     @GetMapping("{id}")
     public ResponseEntity<Brand> queryBrandById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(brandService.queryById(id));
+        Brand brand = this.brandService.queryBrandById(id);
+        if(brand == null){
+            return  ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(brand);
     }
+
     /**
      * 根据id列表查询品牌列表
      * @param ids

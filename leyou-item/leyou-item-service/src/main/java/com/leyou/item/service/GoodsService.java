@@ -234,42 +234,6 @@ public class GoodsService {
         return skus;
     }
 
-    public PageResult<Spu> querySpuPage(Integer page, Integer rows, Boolean saleable, String key) {
-        // 1、查询SPU
-        // 分页,最多允许查100条
-        PageHelper.startPage(page, Math.min(rows, 200));
-
-        // 创建查询条件
-        Example example = new Example(Spu.class);
-        Example.Criteria criteria = example.createCriteria();
-
-        // 是否过滤上下架
-        if (saleable != null) {
-            criteria.orEqualTo("saleable", saleable);
-        }
-
-        // 是否模糊查询
-        if (StringUtils.isNotBlank(key)) {
-            criteria.andLike("title", "%" + key + "%");
-        }
-        // 默认排序
-        example.setOrderByClause("last_update_time DESC");
-
-        // 查询
-        List<Spu> spus = spuMapper.selectByExample(example);
-
-        // 判断
-        if (CollectionUtils.isEmpty(spus)) {
-            throw new LyException(ExceptionEnum.INVALID_FILE_TYPE);
-        }
-
-        // 解析分类和
-        //loadCategoryAndBrandName(spus);
-
-        // 解析分页的结果
-        PageInfo<Spu> info = new PageInfo<>(spus);
-        return new PageResult<>(info.getTotal(), spus);
-    }
 
     public Spu querySpuByid(Long id) {
         Spu spu = spuMapper.selectByPrimaryKey(id);

@@ -56,13 +56,15 @@ public class CategoryController {
             return ResponseEntity.ok(categorys);
     }
 
-    /**
-     * 根据id查询商品分类
-     * @param ids
-     * @return
-     */
-    /*@GetMapping("list/ids")
-    public ResponseEntity<List<Category>> queryCategoryListByids(@RequestParam("ids") List<Long> ids) {
-        return ResponseEntity.ok(categoryService.queryByIds(ids));
-    }*/
+
+    @GetMapping
+    public ResponseEntity<List<String>> queryNamesByIds(@RequestParam("ids") List<Long> ids) {
+        List<String> names = this.categoryService.queryNameSByIds(ids);
+        if(CollectionUtils.isEmpty(names)){
+            //404:资源未找到
+            //return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(names);
+    }
 }

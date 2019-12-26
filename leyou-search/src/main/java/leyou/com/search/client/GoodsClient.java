@@ -4,9 +4,12 @@ import com.leyou.item.api.GoodsApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/9 16:06
- * @Description:
+ * <p>
+ * <code>GoodsClient</code>
+ * </p>
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/25 17:33
  */
 @FeignClient("item-service")
 public interface GoodsClient extends GoodsApi{

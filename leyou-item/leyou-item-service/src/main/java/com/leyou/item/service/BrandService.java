@@ -77,10 +77,9 @@ public class BrandService {
         return new PageResult<>(pageInfo.getTotal(),pageInfo.getList());
     }
 
-
     /**
      * 品牌新增
-     * @description TODO
+     * @description
      * @author huiwang45@iflytek.com
      * @date 2019/11/25 17:17
      * @param
@@ -90,7 +89,6 @@ public class BrandService {
     public void saveBrand(Brand brand, List<Long> cids) {
         //先新增brand
         brandMapper.insert(brand);
-
         // 在新增中间表
         for (Long cid : cids) {
             // 新增brand，brand的id会自动回写
@@ -102,13 +100,16 @@ public class BrandService {
         }
     }
 
-
-    public Brand queryById(Long id) {
-        Brand brand = brandMapper.selectByPrimaryKey(id);
-        if (brand == null) {
-            throw new LyException(ExceptionEnum.BRAND_NOT_FOUND);
-        }
-        return brand;
+    /**
+     * 根据id查询品牌
+     * @description T
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/25 16:49
+     * @param
+     * @return
+     */
+    public Brand queryBrandById(Long id) {
+        return this.brandMapper.selectByPrimaryKey(id);
     }
 
     /**
