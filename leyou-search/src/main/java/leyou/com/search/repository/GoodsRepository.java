@@ -4,9 +4,13 @@ import leyou.com.search.pojo.Goods;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/10 15:47
- * @Description:
+ * <p>
+ * <code>GoodsRepository</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/27 11:03
  */
 public interface GoodsRepository extends ElasticsearchRepository<Goods, Long>{
 }

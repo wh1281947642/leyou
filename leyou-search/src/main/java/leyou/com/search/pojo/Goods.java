@@ -61,7 +61,7 @@ public class Goods {
     /***
      * 价格
      */
-    private Set<Long> price;
+    private List<Long> price;
     /***
      * sku信息的json结构
      */
