@@ -2,10 +2,12 @@ package com.leyou.elasticsearch.test;
 
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.vo.SpuVo;
+import leyou.com.LeyouSearchApplication;
 import leyou.com.search.client.GoodsClient;
 import leyou.com.search.pojo.Goods;
 import leyou.com.search.repository.GoodsRepository;
 import leyou.com.search.service.SearchService;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
  * @description
  * @date 2019/12/27 10:30
  */
-@SpringBootTest
+@SpringBootTest(classes = LeyouSearchApplication.class)
 @RunWith(SpringRunner.class)
 public class ElasticsearchTest {
 
@@ -41,6 +43,7 @@ public class ElasticsearchTest {
     @Autowired
     private GoodsClient goodsClient;
 
+    @Test
     public void test(){
         //创建索引库（数据库）
         this.elasticsearchTemplate.createIndex(Goods.class);
