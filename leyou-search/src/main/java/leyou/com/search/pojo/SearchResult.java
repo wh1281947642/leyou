@@ -9,18 +9,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/14 13:34
- * @Description:
+ * <p>
+ * <code>SearchResult</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2019/12/28 14:58
  */
 @Data
 public class SearchResult extends PageResult<Goods> {
 
+    /***
+     * 分类的集合
+     */
     private List<Category> categories;
-
+    /***
+     * 品牌的集合
+     */
     private List<Brand> brands;
-
-    private List<Map<String,Object>> specs; // 规格参数过滤条件
+    /***
+     * 规格参数过滤条件
+     */
+    private List<Map<String,Object>> specs;
 
     public SearchResult(){};
 
@@ -29,8 +40,6 @@ public class SearchResult extends PageResult<Goods> {
         this.categories = categories;
         this.brands = brands;
     }
-
-
 
     public SearchResult(Long total, Long totalPage, List<Goods> items, List<Category> categories, List<Brand> brands, List<Map<String, Object>> specs) {
         super(total, totalPage, items);

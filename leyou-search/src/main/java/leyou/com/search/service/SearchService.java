@@ -19,12 +19,11 @@ import leyou.com.search.pojo.SearchRequest;
 import leyou.com.search.pojo.SearchResult;
 import leyou.com.search.repository.GoodsRepository;
 import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.Build;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.Operator;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
@@ -151,7 +150,7 @@ public class SearchService {
         //二级分类id
         goods.setCid2(spu.getCid2());
         //三级分类id
-        goods.setCid2(spu.getCid3());
+        goods.setCid3(spu.getCid3());
         //品牌id
         goods.setBrandId(spu.getBrandId());
         //创建时间
@@ -196,7 +195,15 @@ public class SearchService {
         return result;
     }
 
-    public PageResult<Goods> search(SearchRequest request) {
+    /**
+     * 根据key查询分页集合
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/28 12:07
+     * @param
+     * @return
+     */
+    public SearchResult search(SearchRequest request) {
 
         if (StringUtils.isBlank(request.getKey())){
             return null;
@@ -204,14 +211,150 @@ public class SearchService {
         //自定义查询构建器
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
         //添加查询条件
-        queryBuilder.withQuery(QueryBuilders.matchQuery("all",request.getKey()).operator(Operator.AND));
+        //MatchQueryBuilder basicQuery = QueryBuilders.matchQuery("all", request.getKey()).operator(Operator.AND);
+        BoolQueryBuilder basicQuery = buildBoolQueryBuilder(request);
+        queryBuilder.withQuery(basicQuery);
         //添加分页，分页页码从零开始
         queryBuilder.withPageable(PageRequest.of(request.getPage()-1,request.getSize()));
         //添加结果集过滤
         queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{"id","skus","subTitle"},null));
+        //添加分类的品牌的聚合
+        String categoryAggName = "categorys";
+        String brandAggName = "brands";
+        queryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field("cid3"));
+        queryBuilder.addAggregation(AggregationBuilders.terms(brandAggName).field("brandId"));
         //执行查询，获取结果集
         NativeSearchQuery nativeSearchQuery = queryBuilder.build();
-        Page<Goods> goodsPage = this.goodsRepository.search(nativeSearchQuery);
-        return new PageResult<Goods>(goodsPage.getTotalElements(),(long) goodsPage.getTotalPages(),goodsPage.getContent());
+        AggregatedPage<Goods> goodsPage = (AggregatedPage<Goods>)this.goodsRepository.search(nativeSearchQuery);
+        //获取聚合结果集并解析
+        List<Category> categories = getCategoryAggResult( goodsPage.getAggregation(categoryAggName));
+        List<Brand> brands = getBrandAggResult( goodsPage.getAggregation(brandAggName));
+        List<Map<String,Object>> specs =null;
+        //判断是否是一个分类，只有一个分类是才做规格参数聚合
+        if(!CollectionUtils.isEmpty(categories) && categories.size()==1){
+            //规格参数聚合
+           specs = getParamAggResult((long)categories.get(0).getId(),basicQuery);
+
+        }
+        return new SearchResult(goodsPage.getTotalElements(),(long) goodsPage.getTotalPages(),goodsPage.getContent(),categories,brands,specs);
+    }
+
+    /**
+     * 构建bool查询
+     *
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/29 00:00
+     * @param
+     * @return
+     */
+    private BoolQueryBuilder buildBoolQueryBuilder(SearchRequest request) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        //给布尔查询添加基本的查询条件
+        boolQueryBuilder.must(QueryBuilders.matchQuery("all", request.getKey()).operator(Operator.AND));
+        //添加过滤条件
+        //获取用户选择的过滤信息
+        Map<String, Object> filter = request.getFilter();
+        for (Map.Entry<String, Object> entry : filter.entrySet()) {
+            String key = entry.getKey();
+            //品牌
+            if((!("brandId".equals(key)) && (!("cid3".equals(key))))){
+                key = "specs." + key + ".keyword";
+            }
+            boolQueryBuilder.filter(QueryBuilders.termQuery(key,entry.getValue()));
+        }
+        return boolQueryBuilder;
+    }
+
+    /**
+     * 解析分类的聚合结果集
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/28 15:21
+     * @param
+     * @return
+     */
+    private List<Category> getCategoryAggResult(Aggregation aggregation) {
+        LongTerms terms = (LongTerms) aggregation;
+        //获取聚合中的桶
+        List<LongTerms.Bucket> buckets = terms.getBuckets();
+        //转化成List<Category>
+        List<Category> categoryList = buckets.stream().map(bucket -> {
+            //获取桶中分类id
+            long cid = bucket.getKeyAsNumber().longValue();
+            //根据分类id查询分类名称
+            List<String> names = this.categoryClient.queryNamesByIds(Arrays.asList(cid));
+            Category category = new Category();
+            category.setId(cid);
+            category.setName(names.get(0));
+            return category;
+        }).collect(Collectors.toList());
+        return categoryList;
+    }
+
+    /**
+     * 解析品牌的聚合结果集
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/28 15:20
+     * @param
+     * @return
+     */
+    private List<Brand> getBrandAggResult(Aggregation aggregation) {
+        LongTerms terms = (LongTerms) aggregation;
+        //获取聚合中的桶
+        List<LongTerms.Bucket> buckets = terms.getBuckets();
+        //转化成List<Brand>
+        List<Brand> brandList = buckets.stream().map(bucket -> {
+            long bid = bucket.getKeyAsNumber().longValue();
+            Brand brand = this.brandClient.queryBrandById(bid);
+            return brand;
+        }).collect(Collectors.toList());
+        return brandList;
+    }
+
+    /**
+     * 根据查询条件聚合规格参数
+     *
+     * @description TODO
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/28 16:45
+     * @param
+     * @param basicQuery
+     * @return
+     */
+    private List<Map<String,Object>> getParamAggResult(long cid, BoolQueryBuilder basicQuery) {
+        //构建自定义查询对象
+        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+        //添加基本查询条件
+        queryBuilder.withQuery(basicQuery);
+        //查询要聚合的规格参数
+        List<SpecParam> specParams = this.specificationClient.querySpecParams(null, cid, null, true);
+        //添加规格参数聚合
+        specParams.forEach(specParam -> {
+            queryBuilder.addAggregation(AggregationBuilders.terms(specParam.getName()).field("specs."+specParam.getName()+".keyword"));
+        });
+        //添加结果集过滤
+        queryBuilder.withSourceFilter(new FetchSourceFilter(new String[]{},null));
+        //执行聚合查询,获取聚合结果集
+        AggregatedPage<Goods> goodsPage = (AggregatedPage<Goods>)this.goodsRepository.search(queryBuilder.build());
+        //解析聚合结果集 key-聚合名称（规格参数名） value-聚合对象
+        List<Map<String, Object>> specs = new ArrayList<Map<String, Object>>();
+        Map<String, Aggregation> aggregationMap = goodsPage.getAggregations().asMap();
+        for (Map.Entry<String, Aggregation> entry : aggregationMap.entrySet()) {
+            //初始化map {key：规格参数名，options：聚合的规格参数值}
+            Map<String, Object> map = new HashMap<>();
+            map.put("k",entry.getKey());
+            //获取聚合
+            StringTerms terms = (StringTerms)entry.getValue();
+            //获取聚合中的桶
+            List<StringTerms.Bucket> buckets = terms.getBuckets();
+            List<String> options = buckets.stream().map(bucket -> {
+                return bucket.getKeyAsString();
+            }).collect(Collectors.toList());
+            map.put("options",options);
+            specs.add(map);
+        }
+        return specs;
     }
 }

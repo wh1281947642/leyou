@@ -3,6 +3,7 @@ package leyou.com.search.web;
 import com.leyou.common.vo.PageResult;
 import leyou.com.search.pojo.Goods;
 import leyou.com.search.pojo.SearchRequest;
+import leyou.com.search.pojo.SearchResult;
 import leyou.com.search.service.SearchService;
 import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class SearchController {
     private SearchService searchService;
 
     /**
-     *
+     * 根据key查询分页集合
      * @description
      * @author huiwang45@iflytek.com
      * @date 2019/12/27 15:59
@@ -36,8 +37,8 @@ public class SearchController {
      * @return
      */
     @PostMapping("page")
-    public ResponseEntity<PageResult<Goods>> search(@RequestBody SearchRequest request) {
-        PageResult<Goods> result = this.searchService.search(request);
+    public ResponseEntity<SearchResult> search(@RequestBody SearchRequest request) {
+        SearchResult result = this.searchService.search(request);
         if(result ==null || CollectionUtils.isEmpty(result.getItems())){
             return ResponseEntity.notFound().build();
         }

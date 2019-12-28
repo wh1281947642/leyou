@@ -20,6 +20,8 @@ public class SearchRequest {
      * 当前页
      */
     private Integer page;
+
+    private Map<String,Object> filter;
     /***
      * 每页大小，不从页面接收，而是固定大小
      */
@@ -51,5 +53,13 @@ public class SearchRequest {
 
     public Integer getSize() {
         return DEFAULT_SIZE;
+    }
+
+    public Map<String, Object> getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Map<String, Object> filter) {
+        this.filter = filter;
     }
 }
