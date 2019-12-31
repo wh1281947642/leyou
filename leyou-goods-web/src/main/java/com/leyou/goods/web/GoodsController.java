@@ -1,5 +1,6 @@
 package com.leyou.goods.web;
 
+import com.leyou.goods.service.GoodsHtmlService;
 import com.leyou.goods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,17 +27,21 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @Autowired
+    private GoodsHtmlService goodsHtmlService;
+
     /**
      * 跳转到商品详情页
      * @param model
-     * @param id
+     * @param spuId
      * @return
      */
     @GetMapping("{id}.html")
-    public String toItemPage(@PathVariable("id")Long id,Model model){
+    public String toItemPage(@PathVariable("id")Long spuId,Model model){
 
-        Map<String, Object> map = this.goodsService.loadData(id);
+        Map<String, Object> map = this.goodsService.loadData(spuId);
         model.addAllAttributes(map);
+        this.goodsHtmlService.createHtml(spuId);
         return "item";
     }
 }

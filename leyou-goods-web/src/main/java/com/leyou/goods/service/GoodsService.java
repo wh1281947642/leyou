@@ -69,7 +69,7 @@ public class GoodsService {
         //查询规格参数组
         List<SpecGroup> specGroups = this.specificationClient.queryGroupsWithParam(spu.getCid3());
         //查询特殊的规格参数
-        List<SpecParam> specParams = this.specificationClient.querySpecParams(null, spu.getCid3(), null, null);
+        List<SpecParam> specParams = this.specificationClient.querySpecParams(null, spu.getCid3(), null, false);
         //初始化特殊的规格参数
         Map<Long,Object> paramMap = new HashMap<>();
         specParams.forEach(specParam -> {
