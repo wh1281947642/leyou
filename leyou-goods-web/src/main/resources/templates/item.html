@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 	<meta charset="utf-8" />
@@ -704,6 +704,16 @@
 <script type="text/javascript" src="/js/plugins/jquery.jqzoom/jquery.jqzoom.js"></script>
 <script type="text/javascript" src="/js/plugins/jquery.jqzoom/zoom.js"></script>
 <script type="text/javascript" src="index/index.js"></script>
+
+<script th:inline="javascript">
+    const a = /*[[${groups}]]*/ null;
+    const b = /*[[${paramMap}]]*/ null;
+    const c = /*[[${categories}]]*/ null;
+    const d = /*[[${spu}]]*/ null;
+    const e = /*[[${spuDetail}]]*/ null;
+    const f = /*[[${skus}]]*/ null;
+    const g = /*[[${brand}]]*/ null;
+</script>
 </body>
 
 </html>
