@@ -117,7 +117,10 @@ public class GoodsController {
 
     @GetMapping("spu/{id}")
     public ResponseEntity<Spu> querySpuById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(goodsService.querySpuByid(id));
+        Spu spu = goodsService.querySpuByid(id);
+        if(spu == null){
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(spu);
     }
-
 }

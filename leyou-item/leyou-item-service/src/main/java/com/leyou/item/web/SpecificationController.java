@@ -31,7 +31,7 @@ public class SpecificationController {
 
     /**
      * 根据分类id（cid）查询规格参数组
-     * @description TODO
+     * @description
      * @author huiwang45@iflytek.com
      * @date 2019/12/08 17:56
      * @param cid  分类id
@@ -45,6 +45,24 @@ public class SpecificationController {
         }
         return ResponseEntity.ok(groups);
     }
+
+    /**
+     * 根据分类id（cid）查询规格参数组和规格参数
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/30 19:36
+     * @param
+     * @return 
+     */
+    @GetMapping("group/param/{cid}")
+    public ResponseEntity<List<SpecGroup>> queryGroupsWithParam(@PathVariable("cid") Long cid) {
+        List<SpecGroup> specGroupList = this.specificationService.queryGroupsWithParam(cid);
+        if(CollectionUtils.isEmpty(specGroupList)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(specGroupList);
+    }
+
 
     /**
      * 根据条件查询规格参数

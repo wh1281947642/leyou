@@ -36,4 +36,15 @@ public interface SpecificationApi {
             @RequestParam(value="cid", required = false) Long cid,
             @RequestParam(value="searching", required = false) Boolean searching,
             @RequestParam(value="generic", required = false) Boolean generic);
+
+    /**
+     * 根据分类id（cid）查询规格参数组和规格参数
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/30 19:36
+     * @param
+     * @return
+     */
+    @GetMapping("group/param/{cid}")
+    public List<SpecGroup> queryGroupsWithParam(@PathVariable("cid") Long cid);
 }

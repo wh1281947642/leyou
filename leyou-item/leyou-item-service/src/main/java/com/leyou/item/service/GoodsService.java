@@ -234,13 +234,8 @@ public class GoodsService {
         return skus;
     }
 
-
     public Spu querySpuByid(Long id) {
-        Spu spu = spuMapper.selectByPrimaryKey(id);
-        if (spu == null) {
-            throw new  LyException(ExceptionEnum.GOODS_NOT_FOUND);
-        }
-        return spu;
+        return this.spuMapper.selectByPrimaryKey(id);
     }
 
     // 封装一个发送消息的方法

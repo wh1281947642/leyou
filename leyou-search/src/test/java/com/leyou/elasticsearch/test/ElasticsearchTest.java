@@ -2,11 +2,11 @@ package com.leyou.elasticsearch.test;
 
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.vo.SpuVo;
-import leyou.com.LeyouSearchApplication;
-import leyou.com.search.client.GoodsClient;
-import leyou.com.search.pojo.Goods;
-import leyou.com.search.repository.GoodsRepository;
-import leyou.com.search.service.SearchService;
+import com.leyou.LeyouSearchApplication;
+import com.leyou.search.client.GoodsClient;
+import com.leyou.search.pojo.Goods;
+import com.leyou.search.repository.GoodsRepository;
+import com.leyou.search.service.SearchService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -71,5 +71,5 @@ public interface GoodsApi {
      * @return
      */
     @GetMapping("spu/{id}")
-    Spu querySpuById(@PathVariable("id") Long id);
+    public Spu querySpuById(@PathVariable("id") Long id);
 }

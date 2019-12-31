@@ -55,6 +55,23 @@ public class SpecificationService {
     }
 
     /**
+     * 根据分类id（cid）查询规格参数组和规格参数
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2019/12/30 19:42
+     * @param
+     * @return 
+     */
+    public List<SpecGroup> queryGroupsWithParam(Long cid) {
+        List<SpecGroup> specGroups = this.queryGroupsByCid(cid);
+        specGroups.forEach(specGroup -> {
+            List<SpecParam> specParams = this.querySpecParams(specGroup.getId(), null, null, null);
+            specGroup.setParams(specParams);
+        });
+        return specGroups ;
+    }
+
+    /**
      * 根据条件查询规格参数
      * @description
      * @author huiwang45@iflytek.com
@@ -105,4 +122,6 @@ public class SpecificationService {
         });
         return groups;
     }
+
+
 }
