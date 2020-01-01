@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
@@ -61,9 +62,6 @@ public class GoodsService {
     private CategoryService categoryService;
 
     @Autowired
-    private BrandService brandService;
-
-    @Autowired
     private SkuMapper skuMapper;
 
     @Autowired
@@ -74,7 +72,7 @@ public class GoodsService {
 
     /**
      * 根据条件分页查询spu
-     * @description TODO
+     * @description
      * @author huiwang45@iflytek.com
      * @date 2019/12/14 14:07
      * @param key
@@ -147,9 +145,10 @@ public class GoodsService {
         spuDetail.setSpuId(spuVo.getId());
         this.spuDetailMapper.insertSelective(spuDetail);
         saveSkuAndStock(spuVo);
+
+        //发送消息
+        sendMessage(spuVo.getId(),"insert");
     }
-
-
 
     /**
      * 更新商品
@@ -159,7 +158,7 @@ public class GoodsService {
      * @param
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateGoods(SpuVo spuVo) {
         //根据spuId查询要删除的skus
         Sku record = new Sku();
@@ -183,6 +182,8 @@ public class GoodsService {
         spuVo.setSaleable(null);
         this.spuMapper.updateByPrimaryKeySelective(spuVo);
         this.spuDetailMapper.updateByPrimaryKeySelective(spuVo.getSpuDetail());
+
+        sendMessage(spuVo.getId(),"update");
     }
 
     private void saveSkuAndStock(SpuVo spuVo) {
@@ -234,20 +235,32 @@ public class GoodsService {
         return skus;
     }
 
+    /**
+     * 根据spuId查询spu
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:10
+     * @param id ：spuId
+     * @return 
+     */
     public Spu querySpuByid(Long id) {
         return this.spuMapper.selectByPrimaryKey(id);
     }
 
-    // 封装一个发送消息的方法
+    /**
+     * 封装一个发送消息的方法
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:11
+     * @param
+     * @return 
+     */
     private void sendMessage(Long id, String type){
         // 发送消息
         try {
             this.amqpTemplate.convertAndSend("item." + type, id);
         } catch (Exception e) {
-            log.error("{}商品消息发送异常，商品id：{}", type, id, e);
+            e.printStackTrace();
         }
     }
-
-
-
 }

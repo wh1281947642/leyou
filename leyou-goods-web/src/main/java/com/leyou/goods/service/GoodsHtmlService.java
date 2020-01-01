@@ -63,4 +63,18 @@ public class GoodsHtmlService {
             }
         }
     }
+
+    /**
+     * 删除文件
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:35
+     * @param
+     * @return 
+     */
+    public void deleteHtml(Long id) {
+        String filePath = "C:\\Users\\Administrator\\Desktop\\nginx-1.16.0\\nginx-1.16.0\\html\\item";
+        File file = new File(filePath +"\\"+ id + ".html");
+        file.deleteOnExit();
+    }
 }

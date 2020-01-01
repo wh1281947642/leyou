@@ -11,9 +11,9 @@
       maximum-pool-size: 30
       minimum-idle: 10
   rabbitmq:
-    host: 111.230.104.64
-    username: guest
-    password: guest
+    host: 192.168.118.128
+    username: leyou
+    password: 123456
     virtual-host: /leyou
     template:
       retry:
@@ -21,7 +21,7 @@
         initial-interval: 10000ms
         max-interval: 300000ms
         multiplier: 2
-      exchange: ly.item.exchange
+      exchange: LEYOU.ITEM.EXCHANGE
     publisher-confirms: true
  eureka:
   client:
