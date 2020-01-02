@@ -6,9 +6,13 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 /**
- * @Author: cuzz
- * @Date: 2018/10/31 18:42
- * @Description:
+ * <p>
+ * <code>ItemService</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2020/01/02 18:53
  */
 @Service
 public class ItemService {
