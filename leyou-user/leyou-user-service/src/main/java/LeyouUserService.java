@@ -1,5 +1,3 @@
-package com.leyou;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -7,7 +5,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * <p>
- * <code>LeyouItemApplication</code>
+ * <code>LeyouUserService</code>
  * </p>
  * 
  * @author huiwang45@iflytek.com
@@ -16,10 +14,9 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-// 导入tk包(通用mapper)
-@MapperScan("com.leyou.item.mapper")
-public class LeyouItemApplication {
+@MapperScan("com.leyou.user.mapper")
+public class LeyouUserService {
     public static void main(String[] args) {
-        SpringApplication.run(LeyouItemApplication.class);
+        SpringApplication.run(LeyouUserService.class,args);
     }
 }
