@@ -3,12 +3,14 @@ package com.leyou.user.service;
 import com.leyou.common.utils.NumberUtils;
 import com.leyou.pojo.User;
 import com.leyou.user.mapper.UserMapper;
+import com.leyou.user.utils.CodecUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -84,5 +86,40 @@ public class UserService {
 
         //把验证码保存到redis中
         stringRedisTemplate.opsForValue().set(KEY_PREFIX + phone,code,5,TimeUnit.MINUTES);
+    }
+
+    /**
+     *  用户注册
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/02 19:33
+     * @param user
+     * @param code
+     * @return
+     */
+    public void register(User user, String code) {
+
+        //查询redis中的验证码
+        String redisCode = this.stringRedisTemplate.opsForValue().get(KEY_PREFIX + user.getPhone());
+
+        //校验验证码
+        if (!StringUtils.equals(code,redisCode )){
+            return;
+        }
+
+        //生成盐
+        String salt = CodecUtils.generateSalt();
+        user.setSalt(salt);
+
+        //加盐加密
+        String password = CodecUtils.md5Hex(user.getPassword(), salt);
+        user.setPassword(password);
+
+        //新增用户
+        user.setId(null);
+        user.setCreated(new Date());
+        this.userMapper.insertSelective(user);
+
+        //删除redis中的验证码
     }
 }
