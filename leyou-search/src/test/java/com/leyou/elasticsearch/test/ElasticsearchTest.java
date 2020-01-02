@@ -1,7 +1,7 @@
 package com.leyou.elasticsearch.test;
 
 import com.leyou.common.vo.PageResult;
-import com.leyou.item.vo.SpuVo;
+import com.leyou.user.vo.SpuVo;
 import com.leyou.LeyouSearchApplication;
 import com.leyou.search.client.GoodsClient;
 import com.leyou.search.pojo.Goods;

@@ -1,8 +1,8 @@
 package com.leyou.search.pojo;
 
 import com.leyou.common.vo.PageResult;
-import com.leyou.item.pojo.Brand;
-import com.leyou.item.pojo.Category;
+import com.leyou.user.pojo.Brand;
+import com.leyou.user.pojo.Category;
 import lombok.Data;
 
 import java.util.List;

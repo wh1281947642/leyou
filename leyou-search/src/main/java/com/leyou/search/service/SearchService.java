@@ -6,7 +6,7 @@ import com.leyou.search.client.CategoryClient;
 import com.leyou.search.client.SpecificationClient;
 import com.leyou.search.repository.GoodsRepository;
 import com.leyou.common.utils.NumberUtils;
-import com.leyou.item.pojo.*;
+import com.leyou.user.pojo.*;
 import com.leyou.search.client.BrandClient;
 import com.leyou.search.client.GoodsClient;
 import com.leyou.search.pojo.Goods;
