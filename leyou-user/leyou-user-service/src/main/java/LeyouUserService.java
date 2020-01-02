@@ -10,7 +10,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * 
  * @author huiwang45@iflytek.com
  * @description
- * @date 2020/01/02 09:55
+ * @date 2020/01/02 10:00
  */
 @SpringBootApplication
 @EnableDiscoveryClient

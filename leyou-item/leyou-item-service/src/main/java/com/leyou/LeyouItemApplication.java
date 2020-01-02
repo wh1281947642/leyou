@@ -12,12 +12,12 @@ import tk.mybatis.spring.annotation.MapperScan;
  * 
  * @author huiwang45@iflytek.com
  * @description
- * @date 2020/01/02 09:55
+ * @date 2020/01/02 10:00
  */
 @SpringBootApplication
 @EnableDiscoveryClient
 // 导入tk包(通用mapper)
-@MapperScan("com.leyou.item.mapper")
+@MapperScan("com.leyou.user.mapper")
 public class LeyouItemApplication {
     public static void main(String[] args) {
         SpringApplication.run(LeyouItemApplication.class);

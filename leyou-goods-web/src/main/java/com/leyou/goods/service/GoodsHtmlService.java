@@ -46,7 +46,7 @@ public class GoodsHtmlService {
         //设置数据模型
         context.setVariables(this.goodsServicel.loadData(spuId));
         //文件存储路径
-        String filePath = "C:\\Users\\Administrator\\Desktop\\nginx-1.16.0\\nginx-1.16.0\\html\\item";
+        String filePath = "C:\\Users\\Administrator\\Desktop\\nginx-1.16.0\\nginx-1.16.0\\html\\user";
 
         PrintWriter printWriter = null;
 
@@ -54,7 +54,7 @@ public class GoodsHtmlService {
             //把静态文件生成到服务器本地
             File file = new File(filePath +"\\"+ spuId + ".html");
             printWriter = new PrintWriter(file);
-            this.templateEngine.process("item",context,printWriter);
+            this.templateEngine.process("user",context,printWriter);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }finally {
@@ -73,7 +73,7 @@ public class GoodsHtmlService {
      * @return 
      */
     public void deleteHtml(Long id) {
-        String filePath = "C:\\Users\\Administrator\\Desktop\\nginx-1.16.0\\nginx-1.16.0\\html\\item";
+        String filePath = "C:\\Users\\Administrator\\Desktop\\nginx-1.16.0\\nginx-1.16.0\\html\\user";
         File file = new File(filePath +"\\"+ id + ".html");
         file.deleteOnExit();
     }

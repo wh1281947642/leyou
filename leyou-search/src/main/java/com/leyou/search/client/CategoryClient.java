@@ -12,6 +12,6 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @description
  * @date 2019/12/26 15:13
  */
-@FeignClient("item-service")
+@FeignClient("user-service")
 public interface CategoryClient extends CategoryApi {
 }

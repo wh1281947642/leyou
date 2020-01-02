@@ -8,6 +8,6 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @Date: 2018/11/9 16:06
  * @Description:
  */
-@FeignClient("item-service")
+@FeignClient("user-service")
 public interface GoodsClient extends GoodsApi{
 }
