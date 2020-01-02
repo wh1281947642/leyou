@@ -34,7 +34,7 @@ public class UserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private static final String KEY_PREFIX = "user:verify";
+    private static final String KEY_PREFIX = "user:verify:";
 
     /**
      * 校验数据是否可用
