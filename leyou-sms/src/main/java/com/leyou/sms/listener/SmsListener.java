@@ -4,6 +4,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.leyou.sms.config.SmsProperties;
 import com.leyou.sms.utils.SmsUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -43,10 +44,9 @@ public class SmsListener {
      * @return 
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "leyou.sms.queue", durable = "true"),
-            exchange = @Exchange(value = "ly.sms.exchange",
-                                 ignoreDeclarationExceptions = "true"),
-            key = {"sms.verify.code"}))
+            value = @Queue(value = "LEYOU.SMS.QUEUE", durable = "true"),
+            exchange = @Exchange(value = "leyou.sms.exchange", ignoreDeclarationExceptions = "true", type = ExchangeTypes.TOPIC),
+            key = {"verifycode_sms"}))
     public void sendSms(Map<String, String> msg) throws Exception {
         if (CollectionUtils.isEmpty(msg)) {
             // 放弃处理
