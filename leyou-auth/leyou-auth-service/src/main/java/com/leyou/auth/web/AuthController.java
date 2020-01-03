@@ -72,7 +72,7 @@ public class AuthController {
      * @return
      */
     @GetMapping("verify")
-    public ResponseEntity<UserInfo> verify(@CookieValue("LY_TOKEN") String token) {
+    public ResponseEntity<UserInfo> verify(@CookieValue("LY_TOKEN") String token,HttpServletRequest request, HttpServletResponse response) {
         try {
             // 通过jwt工具类使用公钥解析jwt，得到载荷
             UserInfo userInfo = JwtUtils.getInfoFromToken(token, prop.getPublicKey());
@@ -80,6 +80,11 @@ public class AuthController {
             if(userInfo == null){
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+
+            //刷新jwt中的有效时间
+            token = JwtUtils.generateToken(userInfo,this.prop.getPrivateKey(),this.prop.getExpire());
+            //刷新cookie的有效时间
+            CookieUtils.setCookie(request, response, prop.getCookieName(), token,prop.getExpire()*60);
             // 成功后直接返回
             return ResponseEntity.ok(userInfo);
         } catch (Exception e) {
