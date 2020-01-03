@@ -14,6 +14,13 @@
     ip-address: 127.0.0.1 # 设置返回的ip是啥
     instance-id: ${spring.application.name}:${server.port}
 
+leyou:
+  jwt:
+    secret: leyou@Login(Auth}*^31)&heiMa% # 登录校验的密钥
+    pubKeyPath: F:/heima/rsa/rsa.pub # 公钥地址
+    priKeyPath: F:/heima/rsa/rsa.pri # 私钥地址
+    expire: 30 # 过期时间,单位分钟
+    cookieName: LY_TOKEN
 
 
 
