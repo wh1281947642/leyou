@@ -2,13 +2,17 @@ package com.leyou.auth.web;
 
 import com.leyou.auth.config.JwtProperties;
 import com.leyou.auth.service.AuthService;
+import com.leyou.common.pojo.UserInfo;
 import com.leyou.common.utils.CookieUtils;
+import com.leyou.common.utils.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -57,5 +61,30 @@ public class AuthController {
         // 将token写入cookie,并指定httpOnly为true，防止通过JS获取和修改
         CookieUtils.setCookie(request, response, prop.getCookieName(), token, prop.getExpire()*60, null, true);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 验证用户信息
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/03 22:39
+     * @param  token
+     * @return
+     */
+    @GetMapping("verify")
+    public ResponseEntity<UserInfo> verify(@CookieValue("LY_TOKEN") String token) {
+        try {
+            // 通过jwt工具类使用公钥解析jwt，得到载荷
+            UserInfo userInfo = JwtUtils.getInfoFromToken(token, prop.getPublicKey());
+
+            if(userInfo == null){
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            // 成功后直接返回
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            // 抛出异常，证明token无效，直接返回401
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }

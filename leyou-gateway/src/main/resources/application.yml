@@ -25,6 +25,8 @@ zuul:
       path: /upload/** # 将上传微服务映射到/upload/**
       serviceId: upload-service
       strip-prefix : false
+  add-host-header: true
+  sensitive-headers:  # 覆盖默认敏感头信息
 ribbon:
   ConnectTimeout: 250 # 连接超时时间(ms)
   ReadTimeout: 2000 # 通信超时时间(ms)

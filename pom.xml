@@ -19,7 +19,7 @@
         <module>leyou-user</module>
         <module>leyou-sms</module>
         <module>leyou-auth</module>
-        <!--<module>ly-cart</module>-->
+        <module>leyou-cart</module>
         <!--<module>ly-order</module>-->
     </modules>
     <packaging>pom</packaging>
