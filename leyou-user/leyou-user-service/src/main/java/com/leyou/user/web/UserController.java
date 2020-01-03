@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+
 /**
  * <p>
  * <code>UserController</code>
@@ -27,7 +29,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 校验数据是否可用
+     * 校验数据是否可用（是否已经注册过）
      * @description
      * @author huiwang45@iflytek.com
      * @date 2020/01/02 10:30
@@ -58,13 +60,6 @@ public class UserController {
     }
 
     /**
-     * 注册
-     * @param user
-     * @param code
-     * @return
-     */
-
-    /**
      *  用户注册
      * @description
      * @author huiwang45@iflytek.com
@@ -74,8 +69,26 @@ public class UserController {
      * @return
      */
     @PostMapping("register")
-    public ResponseEntity<Void> register(User user, @RequestParam("code") String code) {
+    public ResponseEntity<Void> register(@Valid User user, @RequestParam("code") String code) {
         this.userService.register(user, code);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    /**
+     * 根据用户名和密码查询用户
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/02 20:39
+     * @param username
+     * @param password
+     * @return
+     */
+    @GetMapping("query")
+    public ResponseEntity<User> queryUser(@RequestParam("username") String username, @RequestParam("password") String password) {
+        User user = this.userService.queryUser(username, password);
+        if (user == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(user);
     }
 }

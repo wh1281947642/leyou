@@ -89,7 +89,7 @@ public class UserService {
     }
 
     /**
-     *  用户注册
+     *  用户注册 ，用户名唯一
      * @description
      * @author huiwang45@iflytek.com
      * @date 2020/01/02 19:33
@@ -121,5 +121,35 @@ public class UserService {
         this.userMapper.insertSelective(user);
 
         //删除redis中的验证码
+    }
+
+    /**
+     * 根据用户名和密码查询用户
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/02 20:39
+     * @param username
+     * @param password
+     * @return
+     */
+    public User queryUser(String username, String password) {
+
+        User record = new User();
+        record.setUsername(username);
+        User user = this.userMapper.selectOne(record);
+
+        //判断user是否为空
+        if (user == null){
+            return null;
+        }
+
+        //获取盐，对用户输入的密码加盐加密
+        password =CodecUtils.md5Hex(password, user.getSalt());
+
+        //和数据库中密码比较
+        if (StringUtils.equals(password, user.getPassword())){
+            return user;
+        }
+        return null;
     }
 }
