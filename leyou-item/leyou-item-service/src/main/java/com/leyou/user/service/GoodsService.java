@@ -245,7 +245,7 @@ public class GoodsService {
     private void sendMessage(Long id, String type){
         // 发送消息
         try {
-            this.amqpTemplate.convertAndSend("user." + type, id);
+            this.amqpTemplate.convertAndSend("item." + type, id);
         } catch (Exception e) {
             e.printStackTrace();
         }

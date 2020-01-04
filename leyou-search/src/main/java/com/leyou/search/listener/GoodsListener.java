@@ -38,7 +38,7 @@ public class GoodsListener {
                     value = "LEYOU.ITEM.EXCHANGE",
                     ignoreDeclarationExceptions = "true",
                     type = ExchangeTypes.TOPIC),
-            key = {"user.insert", "user.update"}))
+            key = {"item.insert", "item.update"}))
     public void save(Long id) throws Exception {
         if (id == null) {
             return;
@@ -60,7 +60,7 @@ public class GoodsListener {
                     value = "LEYOU.ITEM.EXCHANGE",
                     ignoreDeclarationExceptions = "true",
                     type = ExchangeTypes.TOPIC),
-            key = "user.delete"))
+            key = "item.delete"))
     public void delete(Long id) {
         if (id == null) {
             return;

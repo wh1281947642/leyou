@@ -213,16 +213,16 @@
                             <div class="fl title">
                                 <div class="control-group">
                                     <div class="controls">
-                                        <input autocomplete="off" type="text" disabled value="1" minnum="1" class="itxt" />
-                                        <a href="javascript:void(0)" class="increment plus">+</a>
-                                        <a href="javascript:void(0)" class="increment mins">-</a>
+                                        <input autocomplete="off" type="text"v-model="num" disabled value="1" minnum="1" class="itxt" />
+                                        <a href="javascript:void(0)" class="increment plus"  @click="incr()">+</a>
+                                        <a href="javascript:void(0)" class="increment mins"  @click="decr()">-</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="fl">
                                 <ul class="btn-choose unstyled">
                                     <li>
-                                        <a href="success-cart.html" target="_blank" class="sui-btn  btn-danger addshopcar">加入购物车</a>
+                                        <a href="javascript:void(0);"  @click="addCart()" class="sui-btn  btn-danger addshopcar">加入购物车</a>
                                     </li>
                                 </ul>
                             </div>
@@ -665,6 +665,20 @@
         },
         components:{
             lyTop: () => import('/js/pages/top.js')
+        },
+        methods:{
+            addCart(){
+                alert("00");
+            },
+            incr(){
+                this.num++;
+            },
+            decr(){
+                if (this.num > 1){
+                    this.num--;
+                }
+
+            }
         },
         computed: {
             sku() {

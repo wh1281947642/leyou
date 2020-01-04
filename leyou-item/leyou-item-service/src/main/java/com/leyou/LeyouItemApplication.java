@@ -17,7 +17,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 // 导入tk包(通用mapper)
-@MapperScan("com.leyou.user.mapper")
+@MapperScan("com.leyou.item.mapper")
 public class LeyouItemApplication {
     public static void main(String[] args) {
         SpringApplication.run(LeyouItemApplication.class);
