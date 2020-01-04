@@ -1,6 +1,6 @@
-package com.leyou.user.service;
+package com.leyou.item.service;
 
-import com.leyou.user.mapper.CategoryMapper;
+import com.leyou.item.mapper.CategoryMapper;
 import com.leyou.user.pojo.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

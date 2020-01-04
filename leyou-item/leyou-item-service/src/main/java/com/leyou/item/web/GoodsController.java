@@ -1,10 +1,10 @@
-package com.leyou.user.web;
+package com.leyou.item.web;
 
 import com.leyou.common.vo.PageResult;
 import com.leyou.user.pojo.Sku;
 import com.leyou.user.pojo.Spu;
 import com.leyou.user.pojo.SpuDetail;
-import com.leyou.user.service.GoodsService;
+import com.leyou.item.service.GoodsService;
 import com.leyou.user.vo.SpuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

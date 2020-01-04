@@ -1,11 +1,11 @@
-package com.leyou.user.service;
+package com.leyou.item.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
-import com.leyou.user.mapper.BrandMapper;
+import com.leyou.item.mapper.BrandMapper;
 import com.leyou.user.pojo.Brand;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

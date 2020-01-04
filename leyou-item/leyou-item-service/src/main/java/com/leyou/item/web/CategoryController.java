@@ -1,7 +1,7 @@
-package com.leyou.user.web;
+package com.leyou.item.web;
 
 import com.leyou.user.pojo.Category;
-import com.leyou.user.service.CategoryService;
+import com.leyou.item.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;

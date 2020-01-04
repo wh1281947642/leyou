@@ -1,8 +1,9 @@
-package com.leyou.user.service;
+package com.leyou.item.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.vo.PageResult;
+import com.leyou.item.mapper.*;
 import com.leyou.user.mapper.*;
 import com.leyou.user.pojo.*;
 import com.leyou.user.vo.SpuVo;
