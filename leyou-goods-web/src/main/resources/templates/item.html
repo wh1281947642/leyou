@@ -666,18 +666,43 @@
         components:{
             lyTop: () => import('/js/pages/top.js')
         },
-        methods:{
-            addCart(){
-                alert("00");
+        methods: {
+            addCart() {
+                //判断有没有登录
+                ly.http.get("/auth/verify")
+                    .then(resp => {
+
+                    })
+                    .catch(() => {
+                        //未登录，保存到localstorage
+                        //先去查询购物车信息
+                        let carts = ly.store.get("LY_CART") || [];
+                        let cart = carts.find(cart => cart.skuId == this.sku.id);
+                        if (cart) {
+                            //如果购物车中有该商品记录，跟新数量
+                            cart.num+=this.num;
+                        }else{
+                            //没有，新增购物车记录
+                            carts.push({
+                                skuId: this.sku.id,
+                                Image: this.images[0],
+                                title: this.sku.title,
+                                ownSpec: this.sku.ownSpec,
+                                price: this.sku.price,
+                                num: this.num
+                            })
+                        }
+                        ly.store.set("LY_CART",carts);
+                        window.location = "http://www.leyou.com/cart.html";
+                    })
             },
-            incr(){
+            incr() {
                 this.num++;
             },
-            decr(){
-                if (this.num > 1){
+            decr() {
+                if (this.num > 1) {
                     this.num--;
                 }
-
             }
         },
         computed: {
