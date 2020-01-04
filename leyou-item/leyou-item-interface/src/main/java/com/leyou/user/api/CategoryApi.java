@@ -11,7 +11,7 @@ import java.util.List;
  * @Date: 2018/11/9 16:03
  * @Description:
  */
-@RequestMapping("category")
+@RequestMapping("/category")
 public interface CategoryApi {
 
     @GetMapping

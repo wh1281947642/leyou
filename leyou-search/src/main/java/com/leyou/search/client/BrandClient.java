@@ -12,6 +12,6 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @description
  * @date 2019/12/26 15:13
  */
-@FeignClient("user-service")
+@FeignClient("item-service")
 public interface BrandClient extends BrandApi{
 }

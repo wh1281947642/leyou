@@ -4,10 +4,14 @@ import com.leyou.user.api.CategoryApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 /**
- * @Author: cuzz
- * @Date: 2018/11/9 15:50
- * @Description:
+ * <p>
+ * <code>CategoryClient</code>
+ * </p>
+ * 
+ * @author huiwang45@iflytek.com
+ * @description
+ * @date 2020/01/04 15:00
  */
-@FeignClient("user-service")
+@FeignClient("item-service")
 public interface CategoryClient extends CategoryApi {
 }
