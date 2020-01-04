@@ -15,6 +15,9 @@
     prefer-ip-address: true # 返回eureka的是ip，而不是主机名
     ip-address: 127.0.0.1 # 设置返回的ip是啥
     instance-id: ${spring.application.name}:${server.port}
-
+leyou:
+  jwt:
+    pubKeyPath: F:/heima/rsa/rsa.pub # 公钥地址
+    cookieName: LY_TOKEN
 
 

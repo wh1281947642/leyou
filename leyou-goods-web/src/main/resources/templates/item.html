@@ -669,8 +669,7 @@
         methods: {
             addCart() {
                 //判断有没有登录
-                ly.http.get("/auth/verify")
-                    .then(resp => {
+                ly.verify().then(resp => {
 
                     })
                     .catch(() => {
@@ -685,7 +684,7 @@
                             //没有，新增购物车记录
                             carts.push({
                                 skuId: this.sku.id,
-                                Image: this.images[0],
+                                image: this.images[0],
                                 title: this.sku.title,
                                 ownSpec: this.sku.ownSpec,
                                 price: this.sku.price,
