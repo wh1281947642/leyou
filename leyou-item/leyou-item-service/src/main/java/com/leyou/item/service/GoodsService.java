@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.mapper.*;
-import com.leyou.user.mapper.*;
 import com.leyou.user.pojo.*;
 import com.leyou.user.vo.SpuVo;
 import lombok.extern.slf4j.Slf4j;
