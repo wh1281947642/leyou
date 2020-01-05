@@ -5,6 +5,7 @@ import com.leyou.user.pojo.Sku;
 import com.leyou.user.pojo.Spu;
 import com.leyou.user.pojo.SpuDetail;
 import com.leyou.user.vo.SpuVo;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,4 +70,15 @@ public interface GoodsApi {
      */
     @GetMapping("spu/{id}")
     public Spu querySpuById(@PathVariable("id") Long id);
+
+    /**
+     * 根据skuId查询sku
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:10
+     * @param skuId ：skuId
+     * @return
+     */
+    @GetMapping("sku/{skuId}")
+    public Sku querySkuByskuId(@PathVariable("skuId") Long skuId);
 }

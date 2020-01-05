@@ -235,6 +235,18 @@ public class GoodsService {
     }
 
     /**
+     * 根据skuId查询sku
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:10
+     * @param skuId ：skuId
+     * @return
+     */
+    public Sku querySkuByskuId(Long skuId) {
+        return this.skuMapper.selectByPrimaryKey(skuId);
+    }
+
+    /**
      * 封装一个发送消息的方法
      * @description
      * @author huiwang45@iflytek.com
@@ -250,4 +262,6 @@ public class GoodsService {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -39,7 +39,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         UserInfo userInfo = JwtUtils.getInfoFromToken(token, prop.getPublicKey());
 
         if (userInfo == null){
-
+            return false;
         }
         //把userInfo放入线程局部变量
         THREAD_LOCAL.set(userInfo);

@@ -123,4 +123,21 @@ public class GoodsController {
         }
         return ResponseEntity.ok(spu);
     }
+
+    /**
+     * 根据skuId查询sku
+     * @description
+     * @author huiwang45@iflytek.com
+     * @date 2020/01/01 15:10
+     * @param skuId ：skuId
+     * @return
+     */
+    @GetMapping("sku/{skuId}")
+    public ResponseEntity<Sku> querySkuByskuId(@PathVariable("skuId") Long skuId) {
+        Sku sku = goodsService.querySkuByskuId(skuId);
+        if(sku == null){
+            return  ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(sku);
+    }
 }
