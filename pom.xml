@@ -10,7 +10,6 @@
     <modules>
         <module>leyou-registry</module>
         <module>leyou-gateway</module>
-        <!--<module>leyou-common</module>-->
         <module>leyou-item</module>
         <module>leyou-common</module>
         <module>leyou-upload</module>
@@ -20,7 +19,7 @@
         <module>leyou-sms</module>
         <module>leyou-auth</module>
         <module>leyou-cart</module>
-        <!--<module>ly-order</module>-->
+        <module>leyou-order</module>
     </modules>
     <packaging>pom</packaging>
 
