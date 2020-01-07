@@ -130,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
             //3.创建查询条件
             Example example = new Example(Order.class);
             example.createCriteria().andEqualTo("userId",userInfo.getId());
-            example.setOrderByClause("create_ime DESC");
+            example.setOrderByClause("create_time DESC");
             //4.查询order
             Page<Order> pageInfo = (Page<Order>) this.orderMapper.selectByExample(example);
             //5.填充orderDetail

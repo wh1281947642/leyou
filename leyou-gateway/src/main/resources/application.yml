@@ -22,6 +22,7 @@ zuul:
     user-service: /user/** # 将用户微服务映射到/user/**
     auth-service: /auth/** # 将鉴权微服务映射到/auth/**
     cart-service: /cart/** # 将购物车微服务映射到/cart/**
+    order-service: /order/** # 将购物车微服务映射到/order/**
     upload-service:
       path: /upload/** # 将上传微服务映射到/upload/**
       serviceId: upload-service
